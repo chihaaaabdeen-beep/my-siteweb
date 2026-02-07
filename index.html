@@ -1,0 +1,1016 @@
+
+html_content = '''<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVault - Ultimate PC Gaming Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'gaming': ['Orbitron', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'gaming-dark': '#0a0a0f',
+                        'gaming-card': '#151520',
+                        'gaming-accent': '#00d4ff',
+                        'gaming-purple': '#8b5cf6',
+                        'gaming-pink': '#ec4899',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px #00d4ff, 0 0 10px #00d4ff' },
+                            '100%': { boxShadow: '0 0 20px #00d4ff, 0 0 40px #00d4ff' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(21, 21, 32, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .game-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-bg {
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 50%, #000000 100%);
+        }
+        .grid-pattern {
+            background-image: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gaming-dark text-white font-body overflow-x-hidden">
+    
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-gaming-accent to-gaming-purple rounded-lg flex items-center justify-center animate-pulse-slow">
+                        <i data-lucide="gamepad-2" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <span class="font-gaming text-2xl font-bold gradient-text">GameVault</span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#games" class="text-gray-300 hover:text-gaming-accent transition-colors font-medium">Games</a>
+                    <a href="#categories" class="text-gray-300 hover:text-gaming-accent transition-colors font-medium">Categories</a>
+                    <a href="#features" class="text-gray-300 hover:text-gaming-accent transition-colors font-medium">Features</a>
+                    <a href="#community" class="text-gray-300 hover:text-gaming-accent transition-colors font-medium">Community</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-white/10 transition-colors">
+                        <i data-lucide="sun" class="w-5 h-5" id="theme-icon"></i>
+                    </button>
+                    <button class="hidden md:flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-full font-semibold hover:shadow-lg hover:shadow-gaming-accent/30 transition-all transform hover:scale-105">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                        Sign In
+                    </button>
+                    <button class="md:hidden p-2" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-effect border-t border-white/10">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#games" class="block py-2 text-gray-300 hover:text-gaming-accent">Games</a>
+                <a href="#categories" class="block py-2 text-gray-300 hover:text-gaming-accent">Categories</a>
+                <a href="#features" class="block py-2 text-gray-300 hover:text-gaming-accent">Features</a>
+                <button class="w-full py-2 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-lg font-semibold">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center hero-bg grid-pattern pt-20">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-gaming-accent/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-gaming-purple/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gaming-pink/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 animate-slide-up">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                <span class="text-sm text-gray-300">Live Server Status: Online</span>
+                <span class="text-sm text-gaming-accent font-semibold">50,000+ Games Available</span>
+            </div>
+
+            <h1 class="font-gaming text-5xl md:text-7xl lg:text-8xl font-bold mb-6 animate-slide-up" style="animation-delay: 0.1s;">
+                <span class="block text-white">Download</span>
+                <span class="gradient-text neon-text">PC Games</span>
+                <span class="block text-white text-4xl md:text-6xl mt-2">Without Limits</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 animate-slide-up" style="animation-delay: 0.2s;">
+                Experience the ultimate gaming destination. High-speed downloads, secure servers, 
+                and a massive library of AAA and indie titles. Join millions of gamers worldwide.
+            </p>
+
+            <!-- Live Search -->
+            <div class="max-w-3xl mx-auto relative animate-slide-up" style="animation-delay: 0.3s;">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative flex items-center bg-gaming-card rounded-2xl border border-white/10 p-2">
+                        <i data-lucide="search" class="w-6 h-6 text-gray-400 ml-4"></i>
+                        <input 
+                            type="text" 
+                            id="hero-search"
+                            placeholder="Search games, genres, or tags..." 
+                            class="w-full bg-transparent border-none outline-none text-white placeholder-gray-500 px-4 py-3 text-lg search-input"
+                            oninput="handleSearch(this.value)"
+                        >
+                        <button class="px-6 py-3 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-xl font-semibold hover:shadow-lg transition-all">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Search Suggestions -->
+                <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-gaming-card rounded-xl border border-white/10 shadow-2xl overflow-hidden z-50">
+                    <div class="p-2" id="suggestions-content"></div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 mt-8 text-sm text-gray-500 animate-slide-up" style="animation-delay: 0.4s;">
+                <span class="flex items-center gap-1"><i data-lucide="trending-up" class="w-4 h-4"></i> Trending: Cyberpunk 2077, Elden Ring, GTA VI</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-16 animate-slide-up" style="animation-delay: 0.5s;">
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-gaming font-bold text-gaming-accent">50K+</div>
+                    <div class="text-gray-400 text-sm mt-1">Total Games</div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-gaming font-bold text-gaming-purple">10M+</div>
+                    <div class="text-gray-400 text-sm mt-1">Downloads</div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-gaming font-bold text-gaming-pink">500K+</div>
+                    <div class="text-gray-400 text-sm mt-1">Active Users</div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-gaming font-bold text-green-400">99.9%</div>
+                    <div class="text-gray-400 text-sm mt-1">Uptime</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-8 h-8 text-gray-500"></i>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-20 bg-gaming-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-gaming text-3xl md:text-5xl font-bold mb-4">Browse by <span class="gradient-text">Category</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Explore our extensive collection organized by genre, popularity, and release date</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4" id="categories-grid">
+                <!-- Categories injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gaming-dark via-[#0f0f1a] to-gaming-dark"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                <div>
+                    <h2 class="font-gaming text-3xl md:text-5xl font-bold mb-2">Featured <span class="gradient-text">Games</span></h2>
+                    <p class="text-gray-400">Handpicked selection of the best titles</p>
+                </div>
+                
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="filterGames('all')" class="filter-btn active px-4 py-2 rounded-full border border-white/10 hover:border-gaming-accent transition-all text-sm font-medium bg-gaming-accent/20 text-gaming-accent" data-filter="all">
+                        All Games
+                    </button>
+                    <button onclick="filterGames('action')" class="filter-btn px-4 py-2 rounded-full border border-white/10 hover:border-gaming-accent transition-all text-sm font-medium text-gray-400 hover:text-white" data-filter="action">
+                        Action
+                    </button>
+                    <button onclick="filterGames('rpg')" class="filter-btn px-4 py-2 rounded-full border border-white/10 hover:border-gaming-accent transition-all text-sm font-medium text-gray-400 hover:text-white" data-filter="rpg">
+                        RPG
+                    </button>
+                    <button onclick="filterGames('racing')" class="filter-btn px-4 py-2 rounded-full border border-white/10 hover:border-gaming-accent transition-all text-sm font-medium text-gray-400 hover:text-white" data-filter="racing">
+                        Racing
+                    </button>
+                    <button onclick="filterGames('sports')" class="filter-btn px-4 py-2 rounded-full border border-white/10 hover:border-gaming-accent transition-all text-sm font-medium text-gray-400 hover:text-white" data-filter="sports">
+                        Sports
+                    </button>
+                </div>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="games-grid">
+                <!-- Games injected by JS -->
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center mt-12">
+                <button onclick="loadMoreGames()" class="px-8 py-4 rounded-full border border-gaming-accent text-gaming-accent hover:bg-gaming-accent hover:text-white transition-all font-semibold group">
+                    <span class="flex items-center gap-2">
+                        Load More Games
+                        <i data-lucide="chevron-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gaming-dark relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gaming-accent/50 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-gaming text-3xl md:text-5xl font-bold mb-4">Why Choose <span class="gradient-text">GameVault</span>?</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Built by gamers, for gamers. Experience the difference.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-effect rounded-2xl p-8 hover:border-gaming-accent/50 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gaming-accent/20 to-gaming-accent/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="zap" class="w-7 h-7 text-gaming-accent"></i>
+                    </div>
+                    <h3 class="font-gaming text-xl font-bold mb-3">Lightning Fast</h3>
+                    <p class="text-gray-400 leading-relaxed">Multi-threaded downloads with CDN acceleration. Get your games up to 10x faster than conventional methods.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-effect rounded-2xl p-8 hover:border-gaming-purple/50 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gaming-purple/20 to-gaming-purple/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shield-check" class="w-7 h-7 text-gaming-purple"></i>
+                    </div>
+                    <h3 class="font-gaming text-xl font-bold mb-3">100% Secure</h3>
+                    <p class="text-gray-400 leading-relaxed">Every file is scanned with 50+ antivirus engines. Malware-free guarantee with encrypted connections.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-effect rounded-2xl p-8 hover:border-gaming-pink/50 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gaming-pink/20 to-gaming-pink/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="hard-drive" class="w-7 h-7 text-gaming-pink"></i>
+                    </div>
+                    <h3 class="font-gaming text-xl font-bold mb-3">Resume Downloads</h3>
+                    <p class="text-gray-400 leading-relaxed">Connection dropped? No problem. Resume interrupted downloads anytime without starting over.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-effect rounded-2xl p-8 hover:border-green-400/50 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-400/20 to-green-400/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="message-circle" class="w-7 h-7 text-green-400"></i>
+                    </div>
+                    <h3 class="font-gaming text-xl font-bold mb-3">Active Community</h3>
+                    <p class="text-gray-400 leading-relaxed">Join discussions, read reviews, and get help from millions of fellow gamers in our forums.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-effect rounded-2xl p-8 hover:border-yellow-400/50 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-400/20 to-yellow-400/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="bell" class="w-7 h-7 text-yellow-400"></i>
+                    </div>
+                    <h3 class="font-gaming text-xl font-bold mb-3">Early Access</h3>
+                    <p class="text-gray-400 leading-relaxed">Get notified instantly when new games release. Be the first to download hot new titles.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-effect rounded-2xl p-8 hover:border-red-400/50 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-400/20 to-red-400/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="headphones" class="w-7 h-7 text-red-400"></i>
+                    </div>
+                    <h3 class="font-gaming text-xl font-bold mb-3">24/7 Support</h3>
+                    <p class="text-gray-400 leading-relaxed">Round-the-clock technical support. Our team is always ready to help with any issues.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gaming-dark to-[#0a0a12]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="glass-effect rounded-3xl p-8 md:p-12 border border-gaming-accent/20">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="font-gaming text-3xl md:text-4xl font-bold mb-6">Join Our <span class="gradient-text">Community</span></h2>
+                        <p class="text-gray-400 mb-8 text-lg">Connect with millions of gamers worldwide. Share reviews, get recommendations, and discover hidden gems.</p>
+                        
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-gaming-accent/20 flex items-center justify-center">
+                                    <i data-lucide="users" class="w-6 h-6 text-gaming-accent"></i>
+                                </div>
+                                <div>
+                                    <div class="font-semibold">500,000+ Members</div>
+                                    <div class="text-sm text-gray-500">Active daily users</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-gaming-purple/20 flex items-center justify-center">
+                                    <i data-lucide="star" class="w-6 h-6 text-gaming-purple"></i>
+                                </div>
+                                <div>
+                                    <div class="font-semibold">2 Million+ Reviews</div>
+                                    <div class="text-sm text-gray-500">Honest gamer feedback</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button class="px-6 py-3 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-xl font-semibold hover:shadow-lg hover:shadow-gaming-accent/30 transition-all">
+                                Join Now
+                            </button>
+                            <button class="px-6 py-3 border border-white/20 rounded-xl font-semibold hover:bg-white/5 transition-all">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-gaming-accent/20 to-gaming-purple/20 rounded-3xl blur-2xl"></div>
+                        <div class="relative glass-effect rounded-2xl p-6 space-y-4">
+                            <div class="flex items-start gap-4">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" class="w-10 h-10 rounded-full bg-gray-700">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-semibold text-sm">Alex_Gamer</span>
+                                        <span class="text-xs text-gray-500">2 mins ago</span>
+                                    </div>
+                                    <p class="text-sm text-gray-300">Just downloaded Cyberpunk 2077 Phantom Liberty. Download speed was insane! 🔥</p>
+                                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="thumbs-up" class="w-3 h-3"></i> 24</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="message-square" class="w-3 h-3"></i> 5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="User" class="w-10 h-10 rounded-full bg-gray-700">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-semibold text-sm">SarahRPG</span>
+                                        <span class="text-xs text-gray-500">5 mins ago</span>
+                                    </div>
+                                    <p class="text-sm text-gray-300">Can anyone recommend a good co-op RPG? Looking for something to play with friends.</p>
+                                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="thumbs-up" class="w-3 h-3"></i> 18</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="message-square" class="w-3 h-3"></i> 12</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mike" alt="User" class="w-10 h-10 rounded-full bg-gray-700">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-semibold text-sm">ProGamer_Mike</span>
+                                        <span class="text-xs text-gray-500">12 mins ago</span>
+                                    </div>
+                                    <p class="text-sm text-gray-300">Baldur's Gate 3 is finally here! The download completed in 15 minutes. Amazing servers! 🎮</p>
+                                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="thumbs-up" class="w-3 h-3"></i> 156</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="message-square" class="w-3 h-3"></i> 32</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050508] border-t border-white/5 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-gaming-accent to-gaming-purple rounded-lg flex items-center justify-center">
+                            <i data-lucide="gamepad-2" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="font-gaming text-2xl font-bold gradient-text">GameVault</span>
+                    </div>
+                    <p class="text-gray-500 mb-6">The ultimate destination for PC gaming. Download, play, and connect with millions of gamers worldwide.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-gaming-accent/20 hover:text-gaming-accent transition-all">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-gaming-accent/20 hover:text-gaming-accent transition-all">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-gaming-accent/20 hover:text-gaming-accent transition-all">
+                            <i data-lucide="youtube" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-gaming-accent/20 hover:text-gaming-accent transition-all">
+                            <i data-lucide="twitch" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-gaming font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">New Releases</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Top Rated</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Coming Soon</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Free Games</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Request a Game</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-gaming font-bold text-lg mb-6">Support</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Download Guide</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">System Requirements</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Report Issue</a></li>
+                        <li><a href="#" class="hover:text-gaming-accent transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-gaming font-bold text-lg mb-6">Newsletter</h4>
+                    <p class="text-gray-500 mb-4">Subscribe for the latest game releases and exclusive offers.</p>
+                    <form class="space-y-3" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                        <input type="email" placeholder="Enter your email" class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-gaming-accent outline-none text-white placeholder-gray-500">
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-lg font-semibold hover:shadow-lg transition-all">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-600 text-sm">© 2024 GameVault. All rights reserved.</p>
+                <div class="flex gap-6 text-sm text-gray-600">
+                    <a href="#" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-400 transition-colors">DMCA</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Game Detail Modal -->
+    <div id="game-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-gaming-card w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-content">
+                <div class="relative">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 flex items-center justify-center hover:bg-gaming-accent/20 transition-colors">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                    <div id="modal-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Game Data
+        const games = [
+            {
+                id: 1,
+                title: "Cyberpunk 2077",
+                category: "action",
+                genre: "Action RPG",
+                rating: 4.8,
+                downloads: "2.5M",
+                size: "70 GB",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+                tags: ["Open World", "Sci-Fi", "FPS"],
+                releaseYear: 2020,
+                description: "An open-world, action-adventure story set in Night City, a megalopolis obsessed with power, glamour and body modification.",
+                requirements: { min: "GTX 970", rec: "RTX 3080" }
+            },
+            {
+                id: 2,
+                title: "Elden Ring",
+                category: "rpg",
+                genre: "Action RPG",
+                rating: 4.9,
+                downloads: "3.2M",
+                size: "60 GB",
+                image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80",
+                tags: ["Souls-like", "Fantasy", "Open World"],
+                releaseYear: 2022,
+                description: "THE NEW FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring.",
+                requirements: { min: "GTX 1060", rec: "RTX 2070" }
+            },
+            {
+                id: 3,
+                title: "Forza Horizon 5",
+                category: "racing",
+                genre: "Racing",
+                rating: 4.7,
+                downloads: "1.8M",
+                size: "110 GB",
+                image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&q=80",
+                tags: ["Open World", "Driving", "Multiplayer"],
+                releaseYear: 2021,
+                description: "Your ultimate Horizon adventure awaits! Explore the vibrant and ever-evolving open world landscapes of Mexico.",
+                requirements: { min: "GTX 970", rec: "RTX 3070" }
+            },
+            {
+                id: 4,
+                title: "FIFA 2024",
+                category: "sports",
+                genre: "Sports",
+                rating: 4.5,
+                downloads: "4.1M",
+                size: "50 GB",
+                image: "https://images.unsplash.com/photo-1493711662062-fa541f7f3d24?w=800&q=80",
+                tags: ["Football", "Simulation", "Multiplayer"],
+                releaseYear: 2023,
+                description: "EA SPORTS FC 24 ushers in a new era of football gaming with HyperMotion V technology.",
+                requirements: { min: "GTX 1050", rec: "RTX 3060" }
+            },
+            {
+                id: 5,
+                title: "Call of Duty: MW3",
+                category: "action",
+                genre: "FPS",
+                rating: 4.6,
+                downloads: "5.5M",
+                size: "150 GB",
+                image: "https://images.unsplash.com/photo-1552820728-8b83bb6b2b0a?w=800&q=80",
+                tags: ["Shooter", "Military", "Multiplayer"],
+                releaseYear: 2023,
+                description: "Modern Warfare III is the sequel to 2022's Modern Warfare II, featuring the return of the iconic villain Vladimir Makarov.",
+                requirements: { min: "GTX 960", rec: "RTX 3080" }
+            },
+            {
+                id: 6,
+                title: "Baldur's Gate 3",
+                category: "rpg",
+                genre: "RPG",
+                rating: 4.9,
+                downloads: "2.1M",
+                size: "122 GB",
+                image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
+                tags: ["D&D", "Turn-Based", "Story Rich"],
+                releaseYear: 2023,
+                description: "Gather your party and return to the Forgotten Realms in a tale of fellowship and betrayal, sacrifice and survival.",
+                requirements: { min: "GTX 970", rec: "RTX 3060" }
+            },
+            {
+                id: 7,
+                title: "Need for Speed Unbound",
+                category: "racing",
+                genre: "Racing",
+                rating: 4.3,
+                downloads: "980K",
+                size: "40 GB",
+                image: "https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?w=800&q=80",
+                tags: ["Arcade", "Street Racing", "Customization"],
+                releaseYear: 2022,
+                description: "Race against time, outsmart the cops, and take on weekly qualifiers to reach The Grand.",
+                requirements: { min: "GTX 1050 Ti", rec: "RTX 2070" }
+            },
+            {
+                id: 8,
+                title: "NBA 2K24",
+                category: "sports",
+                genre: "Sports",
+                rating: 4.4,
+                downloads: "1.5M",
+                size: "140 GB",
+                image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80",
+                tags: ["Basketball", "Simulation", "Career"],
+                releaseYear: 2023,
+                description: "Grab your squad and experience the most authentic NBA experience with best-in-class visual presentation and gameplay.",
+                requirements: { min: "GTX 770", rec: "RTX 3060" }
+            }
+        ];
+
+        const categories = [
+            { name: "Action", icon: "swords", count: "12,450", color: "from-red-500 to-orange-500" },
+            { name: "Adventure", icon: "compass", count: "8,320", color: "from-blue-500 to-cyan-500" },
+            { name: "RPG", icon: "shield", count: "6,890", color: "from-purple-500 to-pink-500" },
+            { name: "Racing", icon: "car", count: "3,240", color: "from-yellow-500 to-red-500" },
+            { name: "Sports", icon: "trophy", count: "4,560", color: "from-green-500 to-emerald-500" },
+            { name: "Strategy", icon: "brain", count: "5,120", color: "from-indigo-500 to-purple-500" }
+        ];
+
+        // Render Categories
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = categories.map(cat => `
+                <div class="glass-effect rounded-xl p-6 text-center hover:border-gaming-accent/50 transition-all cursor-pointer group" onclick="filterGames('${cat.name.toLowerCase()}')">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-gradient-to-br ${cat.color} flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="${cat.icon}" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="font-gaming font-bold mb-1">${cat.name}</h3>
+                    <p class="text-xs text-gray-500">${cat.count} games</p>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Render Games
+        function renderGames(filter = 'all', searchTerm = '') {
+            const grid = document.getElementById('games-grid');
+            let filtered = games;
+
+            if (filter !== 'all') {
+                filtered = filtered.filter(g => g.category === filter || g.genre.toLowerCase().includes(filter));
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(g => 
+                    g.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    g.tags.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
+                );
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20">
+                        <i data-lucide="search-x" class="w-16 h-16 mx-auto text-gray-600 mb-4"></i>
+                        <p class="text-gray-500 text-lg">No games found matching your criteria</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.innerHTML = filtered.map((game, index) => `
+                <div class="game-card glass-effect rounded-2xl overflow-hidden group cursor-pointer animate-slide-up" 
+                     style="animation-delay: ${index * 0.1}s"
+                     onclick="openGameModal(${game.id})">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gaming-card via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 flex gap-2">
+                            <span class="px-2 py-1 rounded-md bg-black/60 backdrop-blur-sm text-xs font-semibold flex items-center gap-1">
+                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-yellow-400"></i>
+                                ${game.rating}
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 left-3 right-3">
+                            <div class="flex gap-2 flex-wrap">
+                                ${game.tags.slice(0, 2).map(tag => `
+                                    <span class="px-2 py-1 rounded-md bg-gaming-accent/20 text-gaming-accent text-xs">${tag}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-gaming font-bold text-lg group-hover:text-gaming-accent transition-colors">${game.title}</h3>
+                            <span class="text-xs text-gray-500">${game.releaseYear}</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${game.description}</p>
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-4 text-gray-500">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="download" class="w-4 h-4"></i>
+                                    ${game.downloads}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="hard-drive" class="w-4 h-4"></i>
+                                    ${game.size}
+                                </span>
+                            </div>
+                            <button class="w-10 h-10 rounded-full bg-gaming-accent/10 text-gaming-accent flex items-center justify-center hover:bg-gaming-accent hover:text-white transition-all">
+                                <i data-lucide="download" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Filter Games
+        function filterGames(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gaming-accent/20', 'text-gaming-accent');
+                btn.classList.add('text-gray-400');
+            });
+            event.target.classList.add('active', 'bg-gaming-accent/20', 'text-gaming-accent');
+            event.target.classList.remove('text-gray-400');
+            renderGames(category);
+        }
+
+        // Search Handler
+        function handleSearch(value) {
+            const suggestions = document.getElementById('search-suggestions');
+            const content = document.getElementById('suggestions-content');
+            
+            if (value.length < 2) {
+                suggestions.classList.add('hidden');
+                renderGames('all');
+                return;
+            }
+
+            const matches = games.filter(g => 
+                g.title.toLowerCase().includes(value.toLowerCase()) ||
+                g.tags.some(t => t.toLowerCase().includes(value.toLowerCase()))
+            ).slice(0, 5);
+
+            if (matches.length > 0) {
+                content.innerHTML = matches.map(game => `
+                    <div class="flex items-center gap-3 p-3 hover:bg-white/5 rounded-lg cursor-pointer transition-colors" onclick="openGameModal(${game.id}); document.getElementById('search-suggestions').classList.add('hidden')">
+                        <img src="${game.image}" class="w-12 h-12 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="font-semibold text-sm">${game.title}</div>
+                            <div class="text-xs text-gray-500">${game.genre} • ${game.size}</div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600"></i>
+                    </div>
+                `).join('');
+                suggestions.classList.remove('hidden');
+                lucide.createIcons();
+            } else {
+                content.innerHTML = `<div class="p-4 text-center text-gray-500">No games found</div>`;
+                suggestions.classList.remove('hidden');
+            }
+
+            renderGames('all', value);
+        }
+
+        // Modal Functions
+        function openGameModal(gameId) {
+            const game = games.find(g => g.id === gameId);
+            if (!game) return;
+
+            const modal = document.getElementById('game-modal');
+            const content = document.getElementById('modal-content');
+            const body = document.getElementById('modal-body');
+
+            body.innerHTML = `
+                <div class="aspect-video relative">
+                    <img src="${game.image}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gaming-card to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${game.tags.map(tag => `<span class="px-3 py-1 rounded-full bg-gaming-accent/20 text-gaming-accent text-sm">${tag}</span>`).join('')}
+                        </div>
+                        <h2 class="font-gaming text-4xl font-bold mb-2">${game.title}</h2>
+                        <div class="flex items-center gap-6 text-sm">
+                            <span class="flex items-center gap-1 text-yellow-400">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                ${game.rating} Rating
+                            </span>
+                            <span class="text-gray-400">${game.downloads} Downloads</span>
+                            <span class="text-gray-400">Released ${game.releaseYear}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="md:col-span-2 space-y-6">
+                            <div>
+                                <h3 class="font-gaming text-xl font-bold mb-3">About This Game</h3>
+                                <p class="text-gray-400 leading-relaxed">${game.description}</p>
+                                <p class="text-gray-400 leading-relaxed mt-4">
+                                    Experience stunning graphics, immersive gameplay, and an unforgettable adventure. 
+                                    This title has been optimized for modern hardware and includes all DLC content.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-gaming text-xl font-bold mb-3">System Requirements</h3>
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div class="glass-effect rounded-xl p-4">
+                                        <div class="text-gaming-accent font-semibold mb-2">Minimum</div>
+                                        <ul class="text-sm text-gray-400 space-y-1">
+                                            <li>OS: Windows 10 64-bit</li>
+                                            <li>CPU: Intel Core i5-8400</li>
+                                            <li>RAM: 8 GB</li>
+                                            <li>GPU: ${game.requirements.min}</li>
+                                            <li>Storage: ${game.size}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="glass-effect rounded-xl p-4">
+                                        <div class="text-gaming-purple font-semibold mb-2">Recommended</div>
+                                        <ul class="text-sm text-gray-400 space-y-1">
+                                            <li>OS: Windows 11 64-bit</li>
+                                            <li>CPU: Intel Core i7-12700K</li>
+                                            <li>RAM: 16 GB</li>
+                                            <li>GPU: ${game.requirements.rec}</li>
+                                            <li>Storage: ${game.size} SSD</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="glass-effect rounded-xl p-6 text-center">
+                                <div class="text-3xl font-gaming font-bold text-gaming-accent mb-1">${game.size}</div>
+                                <div class="text-sm text-gray-500 mb-4">File Size</div>
+                                <div class="text-sm text-gray-400 mb-6">Version 1.0.4 • Last updated 2 days ago</div>
+                                <button onclick="startDownload('${game.title}')" class="w-full py-4 bg-gradient-to-r from-gaming-accent to-gaming-purple rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-gaming-accent/30 transition-all flex items-center justify-center gap-2 group">
+                                    <i data-lucide="download" class="w-5 h-5 group-hover:animate-bounce"></i>
+                                    Download Now
+                                </button>
+                                <div class="mt-4 flex justify-center gap-2 text-xs text-gray-500">
+                                    <span class="flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i> Virus Free</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i> Verified</span>
+                                </div>
+                            </div>
+                            
+                            <div class="glass-effect rounded-xl p-4">
+                                <h4 class="font-semibold mb-3">Download Mirrors</h4>
+                                <div class="space-y-2">
+                                    <button class="w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-sm flex items-center justify-between">
+                                        <span>Server 1 (US)</span>
+                                        <span class="text-gaming-accent">50 MB/s</span>
+                                    </button>
+                                    <button class="w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-sm flex items-center justify-between">
+                                        <span>Server 2 (EU)</span>
+                                        <span class="text-gaming-accent">45 MB/s</span>
+                                    </button>
+                                    <button class="w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-sm flex items-center justify-between">
+                                        <span>Torrent</span>
+                                        <span class="text-gaming-accent">P2P</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            lucide.createIcons();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('game-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function startDownload(gameTitle) {
+            alert(`Starting download for ${gameTitle}...\\n\\nIn a real implementation, this would initiate the file download.`);
+        }
+
+        function loadMoreGames() {
+            const btn = event.target.closest('button');
+            btn.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Loading...</span>';
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="flex items-center gap-2">All Games Loaded <i data-lucide="check" class="w-4 h-4"></i></span>';
+                lucide.createIcons();
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }, 1500);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.setAttribute('data-lucide', 'moon');
+                document.body.classList.remove('bg-gaming-dark', 'text-white');
+                document.body.classList.add('bg-gray-50', 'text-gray-900');
+            } else {
+                html.classList.add('dark');
+                html.classList.remove('light');
+                icon.setAttribute('data-lucide', 'sun');
+                document.body.classList.add('bg-gaming-dark', 'text-white');
+                document.body.classList.remove('bg-gray-50', 'text-gray-900');
+            }
+            lucide.createIcons();
+        }
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'shadow-black/20');
+            } else {
+                navbar.classList.remove('shadow-lg', 'shadow-black/20');
+            }
+        });
+
+        // Close search suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            const searchContainer = document.querySelector('.relative.group');
+            const suggestions = document.getElementById('search-suggestions');
+            if (!searchContainer.contains(e.target)) {
+                suggestions.classList.add('hidden');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderGames();
+        });
+    </script>
+</body>
+</html>'''
+
+# Save the file
+with open('/mnt/kimi/output/gamevault_prototype.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("✅ GameVault Prototype Created Successfully!")
+print("📁 File saved to: /mnt/kimi/output/gamevault_prototype.html")
+print("\n🎮 Features Implemented:")
+print("  • Modern dark gaming aesthetic with neon accents")
+print("  • Fully responsive design (mobile, tablet, desktop)")
+print("  • Interactive game cards with hover animations")
+print("  • Live search with smart suggestions")
+print("  • Category filtering system")
+print("  • Detailed game modal with download simulation")
+print("  • Community activity feed")
+print("  • Theme toggle (dark/light mode)")
+print("  • Smooth scroll animations")
+print("  • Glass morphism effects")
+print("  • Mobile navigation menu")
